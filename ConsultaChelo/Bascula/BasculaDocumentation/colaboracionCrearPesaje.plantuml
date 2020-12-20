@@ -1,0 +1,36 @@
+@startuml
+allowmixing
+left to right direction
+
+rectangle "<u>:ControladorRecibirEvento" as ControladorRecibirEvento
+
+rectangle "<u>:Pesaje" as Pesaje
+rectangle "<u>:Repositorio" as Repositorio
+rectangle "<u>:Alarma" as Alarma
+collections "<u>:Vehiculos" as Vehiculos
+collections "<u>:Lecturas" as Lecturas
+
+circle "Inicio" as Inicio
+
+
+Inicio -- ControladorRecibirEvento : registrarEvento(dispositivo,fecha,codigoVehiculo,peso,mensaje)
+
+ControladorRecibirEvento -- Repositorio : 1.0 vehiculo := buscarVehiculo(codigoVehiculo)
+
+Repositorio -- Vehiculos: 1.1 vehiculo:= buscar(codigoVehiculo)
+
+ControladorRecibirEvento -- ControladorRecibirEvento :3.0 esAlarma := esAlarma(peso,mensaje) \n 2.0 esPesaje := esPesaje(peso,mensaje)
+
+
+
+ControladorRecibirEvento -- Pesaje : 4a.0 [esPesaje] nuevo := crear()
+ControladorRecibirEvento -- Alarma: 4b.0 [esAlarma] nuevo := crear()
+
+ControladorRecibirEvento -- Repositorio : 5.0 registrarLectura(nuevo)
+
+Repositorio -- Lecturas : 5.1 agregar(nuevo)
+
+note "Cuando se crea una Lectura se crea por defecto con estado Pendiente" as n1
+
+
+@enduml

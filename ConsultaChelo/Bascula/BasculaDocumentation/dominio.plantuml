@@ -1,0 +1,29 @@
+@startuml
+
+class Lectura{
+  String dispositivo,
+  LocalDate fecha,
+}
+
+class Alarma{
+  String mensaje
+}
+
+class Pesaje{
+ double peso
+}
+
+class Vehiculo{
+  String codigo
+  String modelo
+}
+
+
+Lectura -- Vehiculo
+Lectura <|-- Pesaje
+Lectura <|-- Alarma
+
+hide members
+show fields
+
+@enduml

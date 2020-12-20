@@ -1,0 +1,77 @@
+@startuml
+
+class ControladorRecibirEvento{
+
+  registrarEvento()
+  esAlarma()
+  esPesaje()
+}
+
+class Repositorio{
+
+  buscarVehiculo()
+  registrarLectura()
+}
+
+class Lectura{
+  String dispositivo,
+  LocalDate fecha,
+}
+
+class Alarma{
+  String mensaje
+}
+
+class Pesaje{
+ double peso
+}
+
+class Vehiculo{
+  String codigo
+  String modelo
+}
+
+class Empleado{
+  int legajo,
+  String  nombre,
+  String apellido
+}
+
+class Operador{
+
+}
+
+class Administrativo{
+
+}
+
+
+enum EstadoLectura{
+  PENDIENTE
+  REVISADA
+  CANCELADA
+}
+
+ControladorRecibirEvento "0..*" --> "1" Repositorio : usa para registrar
+
+Repositorio -->"0..*" Vehiculo : registra
+Repositorio -->"0..*" Lectura : registra
+
+
+
+Lectura "0..*" --> "1" Vehiculo : pertence a
+Lectura "0..*" --> "1" EstadoLectura : tiene
+
+Lectura <|-- Pesaje
+Lectura <|-- Alarma
+
+Empleado <|-- Administrativo
+Empleado <|-- Operador
+
+Operador --> "0..*" Lectura : esta presente al momento de
+
+Administrativo --> "0..*" Lectura : revisa
+
+
+
+@enduml
